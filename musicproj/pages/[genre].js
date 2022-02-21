@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
+// import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+
+import { Button, Link} from '@nextui-org/react';
 
 export default function Genre( {genre, tracks} ) {
   return (
@@ -12,7 +14,9 @@ export default function Genre( {genre, tracks} ) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Link href="/"><a>Home</a></Link>
+      <Link href='/'>
+        <Button size="sm" color="gradient">Home</Button>
+      </Link>
 
       <main>
         <h1>Genre: {genre} </h1>
@@ -20,7 +24,7 @@ export default function Genre( {genre, tracks} ) {
       <aside>
         <h2>Recommends Tracks</h2>
         <ul>
-          {console.log(tracks)}
+          {/* {console.log(tracks)} */}
           {tracks.map(track => <li key={track.id}>{track.artists[0].name} - {track.name}:<a href={track.external_urls.spotify}>Link</a></li>)}
         </ul>
       </aside>
@@ -59,7 +63,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params}) {
 
-  console.log(params)
+  // console.log(params)
 
   const data = await fetch(`https://api.spotify.com/v1/recommendations?seed_genres=${params.genre}`,
   {  
