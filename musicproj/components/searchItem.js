@@ -1,21 +1,23 @@
 
 import React from 'react';
-import { Card } from '@nextui-org/react';
-import Image from 'next/image';
+import { Card, Image } from '@mantine/core';
+import { Link } from '@nextui-org/react';
 
-export default function searchItem( props ) {
-
-  const { imgSource, albumName, artistName, year } = props;
+export default function searchItem(props) {
 
   return (
 
     <div className='searchItem'>
-      <Card>
-        <img src={imgSource}/>
-        <h4>{albumName}</h4>
-        <p>{artistName}</p>
-        <p>{year}</p>
-      </Card>
+      <Link href={`/album/${props.id}`}>
+        <Card>
+          <Image 
+            src={props.imgSource}
+            width={120}/>
+          <h4>{props.albumName}</h4>
+          <p>{props.artistName}</p>
+          <p>{props.year}</p>
+        </Card>
+      </Link>
     </div>
 
   );

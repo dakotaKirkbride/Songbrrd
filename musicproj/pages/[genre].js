@@ -22,7 +22,7 @@ export default function Genre( {genre, tracks} ) {
         <h1>Genre: {genre} </h1>
       </main>
       <aside>
-        <h2>Recommends Tracks</h2>
+        <h2>Recommended Tracks</h2>
         <ul>
           {/* {console.log(tracks)} */}
           {tracks.map(track => <li key={track.id}>{track.artists[0].name} - {track.name}:<a href={track.external_urls.spotify}>Link</a></li>)}
@@ -49,7 +49,7 @@ export async function getStaticPaths() {
   const data = await fetch("https://api.spotify.com/v1/recommendations/available-genre-seeds",
   {  
     headers: {
-    Authorization: `Bearer ${process.env.SPOTIFY_OAUTH_TOKEN}`
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SPOTIFY_OAUTH_TOKEN}`
     }
   }).then(response => response.json());
 
@@ -68,7 +68,7 @@ export async function getStaticProps({params}) {
   const data = await fetch(`https://api.spotify.com/v1/recommendations?seed_genres=${params.genre}`,
   {  
     headers: {
-    Authorization: `Bearer ${process.env.SPOTIFY_OAUTH_TOKEN}`
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SPOTIFY_OAUTH_TOKEN}`
     }
   }).then(response => response.json());
 
