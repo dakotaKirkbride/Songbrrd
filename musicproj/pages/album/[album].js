@@ -1,17 +1,27 @@
 
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { AppShell, Header, Group, Button } from '@mantine/core';
 
 const Album = ( { albumId, albumName, artistName, albumImg} ) => {
 
   console.log(albumId);
 
   return (
-    <>
-    <h1>{albumName}</h1>
-    <h2>An album by {artistName}</h2>
-    <img src={albumImg}/>
-    </>
+    <AppShell
+      padding="md"
+      // navbar={<Navbar width={{ base: 300 }} height={500} padding="xs">{/* Navbar content */}</Navbar>}
+      header={<Header height={60} padding="sm">{/* Header content */}</Header>}
+      styles={(theme) => ({
+        main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+      })}>
+      <Group direction='column' position='center' spacing='5'>
+        <h1>{albumName}</h1>
+        <h2>An album by {artistName}</h2>
+        <img src={albumImg}/>
+        <Button onClick={() => console.log('You liked this album')} style={{ marginTop: 20}}>Like</Button>
+      </Group>
+    </AppShell>
   );
 
 }

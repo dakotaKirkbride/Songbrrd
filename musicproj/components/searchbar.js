@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDebounce } from '../hooks/debounceHook';
 import SearchItem from './searchItem';
 import { useClickOutside } from '@mantine/hooks';
+import { Group } from '@mantine/core';
 
 export default function SearchBar () {
 
@@ -56,17 +57,20 @@ export default function SearchBar () {
 
   return (
     <div ref={ref}>
-      <Input size='xl' placeholder='Search for Album' value={searchVal} onChange={changeHandler}/>
-      {!isLoading && !isEmpty && <>
-        {searchResults.map((searchResult) => (
-          <SearchItem 
-            obj={searchResult}
-            id={searchResult.id}
-            imgSource={searchResult.images[1].url} 
-            albumName={searchResult.name}
-            artistName={searchResult.artists[0].name}/>
-        ))}
-      </>}
+      <Group position='center' direction='column'>
+        <Input size='xl' placeholder='Search for Album' value={searchVal} onChange={changeHandler}/>
+        {!isLoading && !isEmpty && <>
+          {searchResults.map((searchResult) => (
+            <SearchItem 
+              obj={searchResult}
+              id={searchResult.id}
+              imgSource={searchResult.images[1].url} 
+              albumName={searchResult.name}
+              artistName={searchResult.artists[0].name}
+              year={searchResult.release_date.slice(0,4)}/>
+          ))}
+        </>}
+      </Group>
     </div>
   );
 }
