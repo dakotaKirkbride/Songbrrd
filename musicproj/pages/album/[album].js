@@ -1,12 +1,14 @@
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { AppShell, Header, Group, Button, Slider, Container, Space } from '@mantine/core';
+import { AppShell, Header, Group, Slider, Container, Space } from '@mantine/core';
+import TrackList from '../../components/trackList';
+import { Button, Link} from '@nextui-org/react';
 // import addAlbum from '../../library/addAlbum';
 
 export default function Album( { albumObj, albumId, albumName, artistName, albumImg} ) {
 
-  // console.log(albumId);
+  console.log(albumObj);
 
   const [sliderVal, setSliderVal] = useState(0);
 
@@ -32,6 +34,9 @@ export default function Album( { albumObj, albumId, albumName, artistName, album
       styles={(theme) => ({
         main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
       })}>
+      <Link href='/'>
+        <Button size='sm'>Home</Button>
+      </Link>
       <Group direction='column' position='center' spacing='5'>
         <h1>{albumName}</h1>
         <h2>An album by {artistName}</h2>
@@ -41,9 +46,8 @@ export default function Album( { albumObj, albumId, albumName, artistName, album
           <Slider min={0} max={10} step={0.5} value={sliderVal} onChange={setSliderVal}/>
           <Button onClick={callPostAlbum} style={{ marginTop: 20}}>Rate Album</Button>
         </Container>
-
       </Group>
-
+      <TrackList tracks={albumObj.tracks.items}/>
     </AppShell>
   );
 
