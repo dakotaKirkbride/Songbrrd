@@ -1,11 +1,28 @@
 
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { AppShell, Header, Group, Button } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { AppShell, Header, Group, Button, Slider, Container, Space } from '@mantine/core';
+// import addAlbum from '../../library/addAlbum';
 
-const Album = ( { albumId, albumName, artistName, albumImg} ) => {
+export default function Album( { albumObj, albumId, albumName, artistName, albumImg} ) {
 
-  console.log(albumId);
+  // console.log(albumId);
+
+  const [sliderVal, setSliderVal] = useState(0);
+
+  const callPostAlbum = async () => {
+
+    albumObj["rating"] = sliderVal;
+    // console.log("HEY THERE THIS IS THE PRINT STATEMENT: " +albumObj);
+
+    const data = await fetch(
+      '/api/albums/postAlbum',
+      {method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json'}, 
+      body: JSON.stringify(albumObj)}
+      )
+  }
 
   return (
     <AppShell
@@ -19,15 +36,21 @@ const Album = ( { albumId, albumName, artistName, albumImg} ) => {
         <h1>{albumName}</h1>
         <h2>An album by {artistName}</h2>
         <img src={albumImg}/>
-        <Button onClick={() => console.log('You liked this album')} style={{ marginTop: 20}}>Like</Button>
+        <Space h={40}/>
+        <Container size={400}>
+          <Slider min={0} max={10} step={0.5} value={sliderVal} onChange={setSliderVal}/>
+          <Button onClick={callPostAlbum} style={{ marginTop: 20}}>Rate Album</Button>
+        </Container>
+
       </Group>
+
     </AppShell>
   );
 
 }
 
 export async function getServerSideProps( albumContext ) {
-  console.log(albumContext);
+
   const albumId = albumContext.query.album;
   const data = await fetch(`https://api.spotify.com/v1/albums/${albumId}`, 
   {  
@@ -35,14 +58,12 @@ export async function getServerSideProps( albumContext ) {
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_SPOTIFY_OAUTH_TOKEN}`
     }
   }).then(response => response.json());
-  console.log(data);
+
   return { props: {
+    albumObj: data,
     albumId,
     albumName: data.name,
     artistName: data.artists[0].name,
     albumImg: data.images[1].url,
   } }
 }
-
-
-export default Album

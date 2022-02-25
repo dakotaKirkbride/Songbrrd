@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String? @db.VarChar(255)
+  email String  @unique(map: "email") @db.VarChar(255)
+}
+
+model Album {
+  id         String @id @db.VarChar(50)
+  albumName  String @db.VarChar(100)
+  artistName String @db.VarChar(50)
+  rating     Float  @db.Float
+}

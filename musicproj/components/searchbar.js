@@ -49,7 +49,7 @@ export default function SearchBar () {
       if (data) {
         setLoading(false);
         setSearchResults(data.albums.items);
-        console.log("Response: ", data);
+        // console.log("Response: ", data);
       }
   }; 
 
