@@ -1,12 +1,16 @@
 
-import { Input } from '@nextui-org/react';
+// import { Input } from '@nextui-org/react';
 import { useState } from 'react';
 import { useDebounce } from '../hooks/debounceHook';
-import SearchItem from './searchItem';
 import { useClickOutside } from '@mantine/hooks';
-import { Group } from '@mantine/core';
+import { Group, Paper, ScrollArea, Divider, Input, Container } from '@mantine/core';
+import AlbumSearchItem from './SearchItems/albumSearchItem';
+import TrackSearchItem from './SearchItems/trackSearchItem';
+import ArtistSearchItem from './SearchItems/artistSearchItem';
+import SearchIcon from '@mui/icons-material/Search';
 
-export default function SearchBar () {
+
+export default function SearchBar() {
 
   const [searchVal, setSearchVal] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -25,52 +29,92 @@ export default function SearchBar () {
     setSearchVal(event.target.value);
   }
 
-  const prepareSearchQuery = (query) => {
-    const url = `https://api.spotify.com/v1/search?q=${query}&type=album&limit=5`
-
-    return encodeURI(url);
-  }
-
   const searchForValue = async () => {
-    if (!searchVal || searchVal.trim() === "") 
+    if (!searchVal || searchVal.trim() === "")
       return;
 
     setLoading(true);
 
-    const URL = prepareSearchQuery(searchVal);
-    
-    const data = await fetch(URL, 
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SPOTIFY_OAUTH_TOKEN}`
-        }
-      }).then(response => response.json());
+    const data = await fetch(`/api/spotify/search?searchVal=${searchVal}`).then(response => response.json());
+    console.log("Here is the data");
+    console.log(data);
 
-      if (data) {
-        setLoading(false);
-        setSearchResults(data.albums.items);
-        // console.log("Response: ", data);
-      }
-  }; 
+    if (data) {
+      setLoading(false);
+      setSearchResults(data.items);
+      console.log(data.items);
+    }
+  };
 
-  useDebounce(searchVal, 500, searchForValue);
+  useDebounce(searchVal, 400, searchForValue);
 
   return (
     <div ref={ref}>
       <Group position='center' direction='column'>
-        <Input size='xl' placeholder='Search for Album' value={searchVal} onChange={changeHandler}/>
+        <Input size='md' placeholder='Search for albums, tracks, and artists' value={searchVal} onChange={changeHandler} radius="xl" icon={<SearchIcon />} style={{ width: 350 }} />
         {!isLoading && !isEmpty && <>
-          {searchResults.map((searchResult) => (
-            <SearchItem 
-              obj={searchResult}
-              id={searchResult.id}
-              imgSource={searchResult.images[1].url} 
-              albumName={searchResult.name}
-              artistName={searchResult.artists[0].name}
-              year={searchResult.release_date.slice(0,4)}/>
-          ))}
+          <Container
+            size="xl"
+            sx={{
+              position: 'absolute',
+              top: 60
+            }}>
+            <ScrollArea
+              type='scroll'
+              sx={{
+                width: 400,
+                height: 500
+              }}>
+              <Paper
+                radius='md'
+                padding='sm'
+                shadow='xl'
+                sx={(theme) => ({
+                  backgroundColor: theme.colors.gray[0]
+                })}>
+                <Divider size='sm' label='Albums' />
+                {searchResults.albums.items.map((album) => (
+                  <AlbumSearchItem
+                    obj={album}
+                    id={album.id}
+                    imgSource={album.images[1].url}
+                    albumName={album.name}
+                    artistName={album.artists[0].name}
+                    year={album.release_date.slice(0, 4)} />
+                ))}
+
+                <Divider size="sm" label="Tracks" />
+                {searchResults.tracks.items.map((track) => (
+                  <TrackSearchItem
+                    obj={track}
+                    id={track.id}
+                    imgSource={track.album.images[1].url}
+                    trackName={track.name}
+                    artistName={track.artists[0].name}
+                    year={track.album.release_date.slice(0, 4)} />
+                ))}
+
+                <Divider size="sm" label="Artists" />
+                {searchResults.artists.items.map((artist) => (
+                  typeof artist.images[0] === "undefined" ? (
+                    <ArtistSearchItem
+                      obj={artist}
+                      id={artist.id}
+                      imgSource="https://i.scdn.co/image/ab67616100005174867008a971fae0f4d913f63a"
+                      artistName={artist.name} />
+                  ) : (
+                    <ArtistSearchItem
+                      obj={artist}
+                      id={artist.id}
+                      imgSource={artist.images[1].url}
+                      artistName={artist.name} />
+                  )
+                ))}
+              </Paper>
+            </ScrollArea>
+          </Container>
         </>}
       </Group>
     </div>
-  );
+  )
 }
