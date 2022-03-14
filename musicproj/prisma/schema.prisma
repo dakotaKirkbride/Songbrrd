@@ -7,15 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId], map: "Account_userId_fkey")
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  sessionToken  String   @unique
+  userId        String
+  expires       DateTime
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Session_userId_fkey")
+}
+
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String? @db.VarChar(255)
-  email String  @unique(map: "email") @db.VarChar(255)
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique @default(cuid())
+  accounts      Account[]
+  sessions      Session[]
+  albumRatings  AlbumRating[]
+}
+
+model VerificationToken {
+  identifier    String
+  token         String   @unique
+  expires       DateTime
+
+  @@unique([identifier, token])
 }
 
 model Album {
-  id         String @id @db.VarChar(50)
-  albumName  String @db.VarChar(100)
-  artistName String @db.VarChar(50)
-  rating     Float  @db.Float
+  id            String    @id
+  albumName     String
+  artistName    String  
+  albumRatings  AlbumRating[]
+}
+
+model AlbumRating {
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String
+  album         Album     @relation(fields: [albumId], references: [id])
+  albumId       String
+  rating        Float
+  assignedAt    DateTime  @default(now())
+
+  @@id([userId, albumId])
 }

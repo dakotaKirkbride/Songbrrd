@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useDebounce } from '../hooks/debounceHook';
 import { useClickOutside } from '@mantine/hooks';
-import { Group, Paper, ScrollArea, Divider, Input, Container } from '@mantine/core';
+import { Group, Paper, ScrollArea, Divider, Container, TextInput, Loader } from '@mantine/core';
 import AlbumSearchItem from './SearchItems/albumSearchItem';
 import TrackSearchItem from './SearchItems/trackSearchItem';
 import ArtistSearchItem from './SearchItems/artistSearchItem';
@@ -51,13 +51,14 @@ export default function SearchBar() {
   return (
     <div ref={ref}>
       <Group position='center' direction='column'>
-        <Input size='md' placeholder='Search for albums, tracks, and artists' value={searchVal} onChange={changeHandler} radius="xl" icon={<SearchIcon />} style={{ width: 350 }} />
+        <TextInput size='md' placeholder='Search for albums, tracks, and artists' value={searchVal} onChange={changeHandler} radius="xl" icon={<SearchIcon />} style={{ width: 350 }} rightSection={isLoading && <Loader size='xs'/>} />
         {!isLoading && !isEmpty && <>
           <Container
             size="xl"
             sx={{
               position: 'absolute',
-              top: 60
+              top: 60,
+              zIndex: 1
             }}>
             <ScrollArea
               type='scroll'

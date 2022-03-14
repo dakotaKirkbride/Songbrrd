@@ -13,6 +13,7 @@
     "@mantine/hooks": "^3.6.9",
     "@mantine/next": "^3.6.9",
     "@mui/icons-material": "^5.4.2",
+    "@next-auth/prisma-adapter": "^0.5.2-next.5",
     "@nextui-org/react": "^1.0.2-beta.4",
     "@prisma/client": "^3.10.0",
     "@radix-ui/react-icons": "^1.1.0",
