@@ -42,6 +42,15 @@ export default function Home({ artistObj }) {
       </Grid>
     </Container >
   </Box>
+  // // <Test> 
+  //   {/* <Hello>
+  //     <Grid>
+  //       <Grid.Col>
+          
+  //       </Grid.Col>
+  //     </Grid>
+  //   </Hello>
+  // </Test> */}
   )
 }
 
@@ -51,7 +60,7 @@ export async function getStaticProps() {
 
   // generate random letter to be used in spotify get request
   // const alphabet = "abcdefghijklmnopqrstuvwxyz"
-  const alphabet = "abcdefgijklmnopqrstuvwxyz"
+  const alphabet = "abcdefgijklmnopqrtuvwxyz"
 
   const randomCharacter = alphabet[Math.floor(Math.random() * alphabet.length)]
   // console.log(randomCharacter)

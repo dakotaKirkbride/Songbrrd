@@ -9,10 +9,12 @@ import { useDebounce } from '../../hooks/debounceHook';
 const prisma = new PrismaClient()
 
 export default function NewUser({ usernames }) {
+
   const [ searchVal, setSearchVal ] = useState("");
   const [ buttonState, setButtonState ] = useState(true);
   const [ textState, setTextState ] = useState(false);
   const { data: session } = useSession();
+
   const changeHandler = event => {
     event.preventDefault();
     setSearchVal(event.target.value);
@@ -32,6 +34,7 @@ export default function NewUser({ usernames }) {
     }
   }
   useDebounce(searchVal, 50, checkUsername);
+  
   return (
     <Box sx={(theme) => ({display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 300, })}>
       <Paper padding='xl' radius='lg' shadow='xl' sx={{width: 600, height: 600,display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
