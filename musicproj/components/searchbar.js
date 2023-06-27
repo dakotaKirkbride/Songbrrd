@@ -1,5 +1,3 @@
-
-// import { Input } from '@nextui-org/react';
 import { useState } from 'react';
 import { useDebounce } from '../hooks/debounceHook';
 import { useClickOutside } from '@mantine/hooks';
@@ -9,9 +7,7 @@ import TrackSearchItem from './SearchItems/trackSearchItem';
 import ArtistSearchItem from './SearchItems/artistSearchItem';
 import SearchIcon from '@mui/icons-material/Search';
 
-
 export default function SearchBar() {
-
   const [searchVal, setSearchVal] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -51,70 +47,80 @@ export default function SearchBar() {
   return (
     <div ref={ref}>
       <Group position='center' direction='column'>
-        <TextInput size='md' placeholder='Search for albums, tracks, and artists' value={searchVal} onChange={changeHandler} radius="xl" icon={<SearchIcon />} style={{ width: 350 }} rightSection={isLoading && <Loader size='xs'/>} />
-        {!isLoading && !isEmpty && <>
-          <Container
-            size="xl"
-            sx={{
-              position: 'absolute',
-              top: 60,
-              zIndex: 1
-            }}>
-            <ScrollArea
-              type='scroll'
+        <TextInput size='md' placeholder='Search for albums, tracks, and artists' value={searchVal} onChange={changeHandler} radius="xl" icon={<SearchIcon />} style={{ width: 350 }} rightSection={isLoading && <Loader size='xs' />} />
+        {!isLoading && !isEmpty && (
+          <>
+            <Container
+              size="xl"
               sx={{
-                width: 400,
-                height: 500
+                position: 'absolute',
+                top: 60,
+                zIndex: 1
               }}>
-              <Paper
-                radius='md'
-                padding='sm'
-                shadow='xl'
-                sx={(theme) => ({
-                  backgroundColor: theme.colors.gray[0]
-                })}>
-                <Divider size='sm' label='Albums' />
-                {searchResults.albums.items.map((album) => (
-                  <AlbumSearchItem
-                    obj={album}
-                    id={album.id}
-                    imgSource={album.images[1].url}
-                    albumName={album.name}
-                    artistName={album.artists[0].name}
-                    year={album.release_date.slice(0, 4)} />
-                ))}
+              <ScrollArea
+                type='scroll'
+                sx={{
+                  width: 400,
+                  height: 500
+                }}>
+                <Paper
+                  radius='md'
+                  padding='sm'
+                  shadow='xl'
+                  sx={(theme) => ({
+                    backgroundColor: theme.colors.gray[0]
+                  })}>
+                  <Divider size='sm' label='Albums' />
+                  {searchResults.albums.items.map((album) => (
+                    <AlbumSearchItem
+                      key={album.id} // Add key prop with a unique identifier
+                      obj={album}
+                      id={album.id}
+                      imgSource={album.images[1].url}
+                      albumName={album.name}
+                      artistName={album.artists[0].name}
+                      year={album.release_date.slice(0, 4)}
+                    />
+                  ))}
 
-                <Divider size="sm" label="Tracks" />
-                {searchResults.tracks.items.map((track) => (
-                  <TrackSearchItem
-                    obj={track}
-                    id={track.id}
-                    imgSource={track.album.images[1].url}
-                    trackName={track.name}
-                    artistName={track.artists[0].name}
-                    year={track.album.release_date.slice(0, 4)} />
-                ))}
+                  <Divider size="sm" label="Tracks" />
+                  {searchResults.tracks.items.map((track) => (
+                    <TrackSearchItem
+                      key={track.id} // Add key prop with a unique identifier
+                      obj={track}
+                      id={track.id}
+                      imgSource={track.album.images[1].url}
+                      trackName={track.name}
+                      artistName={track.artists[0].name}
+                      year={track.album.release_date.slice(0, 4)}
+                    />
+                  ))}
 
-                <Divider size="sm" label="Artists" />
-                {searchResults.artists.items.map((artist) => (
-                  typeof artist.images[0] === "undefined" ? (
-                    <ArtistSearchItem
-                      obj={artist}
-                      id={artist.id}
-                      imgSource="https://i.scdn.co/image/ab67616100005174867008a971fae0f4d913f63a"
-                      artistName={artist.name} />
-                  ) : (
-                    <ArtistSearchItem
-                      obj={artist}
-                      id={artist.id}
-                      imgSource={artist.images[1].url}
-                      artistName={artist.name} />
-                  )
-                ))}
-              </Paper>
-            </ScrollArea>
-          </Container>
-        </>}
+                  <Divider size="sm" label="Artists" />
+                  {searchResults.artists.items.map((artist) => (
+                    typeof artist.images[0] === "undefined" ? (
+                      <ArtistSearchItem
+                        key={artist.id} // Add key prop with a unique identifier
+                        obj={artist}
+                        id={artist.id}
+                        imgSource="https://i.scdn.co/image/ab67616100005174867008a971fae0f4d913f63a"
+                        artistName={artist.name}
+                      />
+                    ) : (
+                      <ArtistSearchItem
+                        key={artist.id} // Add key prop with a unique identifier
+                        obj={artist}
+                        id={artist.id}
+                        imgSource={artist.images[1].url}
+                        artistName={artist.name}
+                      />
+                    )
+                  ))}
+                </Paper>
+              </ScrollArea>
+            </Container>
+          </>
+        )}
       </Group>
     </div>
   )

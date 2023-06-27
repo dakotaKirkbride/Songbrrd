@@ -1,20 +1,17 @@
-
 import { Container, Title, Text, Paper, Divider, Space, Group, Box } from '@mantine/core';
 
-export default function trackList( {tracks} ) {
-
+export default function TrackList({ tracks }) {
   return (
-    <Container sx={{ maxWidth: 1200
-    }}>
+    <Container sx={{ maxWidth: 1200 }}>
       <Title>Tracks</Title>
       <Paper padding="md" shadow="xl" radius="lg">
         {tracks.map((track) => (
-          <Box sx={(theme) => ({
+          <Box key={track.id} sx={(theme) => ({
             paddingLeft: 10,
             '&:hover': {
               backgroundColor:
                 theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
-                borderRadius: 10
+              borderRadius: 10
             },
           })}>
             <Space h="xs"/>
@@ -23,7 +20,8 @@ export default function trackList( {tracks} ) {
               <Text size='lg'>{track.name}</Text>
             </Group>
             <Space h="xs"/>
-          </Box>))}
+          </Box>
+        ))}
       </Paper>
     </Container>
   );

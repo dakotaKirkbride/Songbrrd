@@ -1,7 +1,6 @@
-
 import { Header, Text, Group, Button, Menu, Container, Box, Drawer, Space } from '@mantine/core';
 import { theme } from '@nextui-org/react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from '@nextui-org/react';
 import SearchBar from './searchbar';
 import SignInButton from './SignInButton';
@@ -12,8 +11,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 
 import { useSession, signIn, signOut } from "next-auth/react"
 
-export default function header() {
-
+export default function PageHeader() {
   const [navOpened, setNavOpened] = useState(false);
   const { data: session } = useSession()
 
@@ -44,17 +42,8 @@ export default function header() {
               </Menu>
             </Box>
             <SignInButton />
-            {/* <Link href=''>
-            <Button>Log In / Sign Up</Button>
-          </Link> */}
-
-            {/* <MediaQuery largerThan="xl"
-            styles={{ display: 'none' }}>
-            <Burger hiddenBreakpoint="xl" opened={navOpened} onClick={() => setNavOpened((o) => !o)} />
-          </MediaQuery> */}
           </Group>
         </Container>
-
       </Header>
 
       <Drawer
@@ -62,27 +51,7 @@ export default function header() {
         onClose={() => setNavOpened(false)}
         position="right"
         size="lg">
-
       </Drawer>
-
-
-
-
-
-
-
-
-
-
-      {/* <Navbar fixed position={{ top: 60, right: 0 }} width={{ base: 300 }} height={800} hidden={!navOpened} hiddenBreakpoint="2000" padding="md" style={{ backgroundColor: theme.colors.gray100}}>
-        <Group direction='column' position='center'>
-        <Navbar.Section><Link href='/profile/[profile]'>Profile</Link></Navbar.Section>
-          <Navbar.Section><Link href='/'>Home</Link></Navbar.Section>
-          <Navbar.Section><Link href='/genres'>Genres</Link></Navbar.Section>
-          <Navbar.Section><Link href='/signin'>Login</Link></Navbar.Section>
-        </Group>
-
-      </Navbar> */}
     </>
   )
 }

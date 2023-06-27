@@ -2,7 +2,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { Button, Text, Avatar, Box, Space } from '@mantine/core';
 import { Link } from '@nextui-org/react';
 
-export default function signInButton() {
+export default function SignInButton() {
   const { data: session } = useSession()
   if(session) {
     return <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>

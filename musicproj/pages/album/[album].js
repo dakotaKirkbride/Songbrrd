@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Box, Group, Slider, Container, Space, Paper, Grid, Title, Text, Image, Button, Divider } from '@mantine/core';
 import TrackList from '../../components/trackList';
 import { Link } from '@nextui-org/react';
-import Header from '../../components/header';
+import PageHeader from '../../components/header';
 import spotifyApi from '../../library/spotify';
 import { useViewportSize } from '@mantine/hooks';
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -60,7 +60,7 @@ export default function Album({ albumObj, albumId, albumName, artistName, albumI
     backgroundColor: theme.colors.gray[1],
     minHeight: height,
     paddingBottom: 200})}>
-    <Header />
+    <PageHeader />
     <Container sx={{ maxWidth: 1200, marginTop: 100 }}>
       <Paper shadow='xl' radius='lg' padding='xl'>
         <Grid justify="center" gutter='xl'>
