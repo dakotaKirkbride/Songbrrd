@@ -2,7 +2,7 @@ import { getProviders, signIn } from "next-auth/react";
 import { Button, Title, Container, Group, Paper, Box } from '@mantine/core';
 
 export default function SignIn({ providers }) {
-  const callbackUrl = process.browser ? window.location.search.split("=")[1] : "";
+  const callbackUrl = process.browser ? decodeURIComponent(window.location.search.split("=")[1]) : "/";
 
   return (
     <Box sx={(theme) => ({
