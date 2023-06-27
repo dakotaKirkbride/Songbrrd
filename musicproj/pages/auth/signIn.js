@@ -1,10 +1,8 @@
-
-// reference: https://next-auth.js.org/configuration/pages
-
 import { getProviders, signIn } from "next-auth/react";
 import { Button, Title, Container, Group, Paper, Box } from '@mantine/core';
 
 export default function SignIn({ providers }) {
+  const callbackUrl = process.browser ? window.location.search.split("=")[1] : "";
 
   return (
     <Box sx={(theme) => ({
@@ -30,7 +28,7 @@ export default function SignIn({ providers }) {
           </Container>
           {Object.values(providers).map((provider) => (
             <div key={provider.name}>
-              <Button onClick={() => signIn(provider.id, {callbackUrl: window.location.search.split("=")[1]})}>
+              <Button onClick={() => signIn(provider.id, { callbackUrl })}>
                 Sign in with {provider.name}
               </Button>
             </div>
