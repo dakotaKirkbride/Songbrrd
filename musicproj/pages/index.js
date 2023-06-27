@@ -56,7 +56,8 @@ export default function Home({ artistObj }) {
 
 let artist;
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
+  export async function getServerSideProps() {
 
   // generate random letter to be used in spotify get request
   // const alphabet = "abcdefghijklmnopqrstuvwxyz"

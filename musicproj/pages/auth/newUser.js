@@ -53,7 +53,7 @@ export default function NewUser({ usernames }) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
   const users = await prisma.user.findMany()
 
