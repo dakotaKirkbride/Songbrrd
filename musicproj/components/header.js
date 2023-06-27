@@ -3,7 +3,7 @@ import { theme } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { Link } from '@nextui-org/react';
 import SearchBar from './searchbar';
-import SignInButton from './SignInButton';
+import SignInButton from './signInButton';
 import AlbumIcon from '@mui/icons-material/Album';
 import StarIcon from '@mui/icons-material/Star';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
