@@ -81,7 +81,6 @@ let artist;
     props: {
       artistObj: artist,
     },
-    revalidate: 3000
   }
 
 }
