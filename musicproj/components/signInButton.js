@@ -2,7 +2,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { Button, Text, Avatar, Box, Space } from '@mantine/core';
 import { Link } from '@nextui-org/react';
 
-export default function SignInButton() {
+function SignInButton() {
   const { data: session } = useSession()
   if(session) {
     return <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
@@ -18,3 +18,5 @@ export default function SignInButton() {
     <Button variant="gradient" gradient={{ from: 'grape', to: 'violet' }} onClick={() => signIn()}>Log In / Sign Up</Button>
   </>
 }
+
+export default SignInButton;
